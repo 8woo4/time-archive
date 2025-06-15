@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -14,7 +12,6 @@ export default function EditClient() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  // 기존 글 불러오기
   useEffect(() => {
     if (!id) return;
     supabase
@@ -30,14 +27,12 @@ export default function EditClient() {
       });
   }, [id]);
 
-  // 수정 요청
   const handleUpdate = async () => {
     if (!title || !id) return alert('제목과 ID는 필수입니다.');
     const { error } = await supabase
       .from('archives')
       .update({ title, content })
       .eq('id', id);
-
     if (!error) router.push('/');
     else alert('수정 실패: ' + error.message);
   };
@@ -50,17 +45,15 @@ export default function EditClient() {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="border p-2 w-full mb-2 rounded"
-        placeholder="제목을 입력하세요"
       />
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="border p-2 w-full h-40 mb-2 rounded"
-        placeholder="내용을 입력하세요"
       />
       <button
         onClick={handleUpdate}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        className="bg-green-600 text-white px-4 py-2 rounded"
       >
         수정 완료
       </button>
